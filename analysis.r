@@ -1,4 +1,5 @@
 library(dplyr)
+library(tidyr)
 library(ggplot2)
 library(cowplot)
 
@@ -227,10 +228,10 @@ rbind(concentration_date, concentration_pooled_all_date) %>%
           axis.text.x = element_blank(),
           axis.ticks.x = element_blank()) +
     scale_discrete_manual(aesthetics = "fill", 
-                          values = c("01/09-10/24" = "#2d8b8c", 
-                                     "01/24-25/24" = "#49a078", 
-                                     "01/30-31/24" = "#9cc5a1", 
-                                     "Pooled" = "#dce1de")) +
+                          values = c("01/09-10/24" = "#61678B", 
+                                     "01/24-25/24" = "#8488B5", 
+                                     "01/30-31/24" = "#BCB9D8", 
+                                     "Pooled" = "#DEDEEA")) +
     labs(x = element_blank(), 
          y = parse(text = "Particles/m^3"))
 
