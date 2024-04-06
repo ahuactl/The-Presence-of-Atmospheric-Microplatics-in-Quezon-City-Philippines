@@ -15,10 +15,10 @@ are evenly deposited on the entire filter, we expect that for any subsection $a$
 the number of particles is given by
 
 $$
-a \sim \mathrm{Poisson}(\lambda_a)
+a \sim \mathrm{Poisson}(\lambda)
 $$
 
-where $\lambda_a$ is the true density of microplastic deposition of the filter.
+where $\lambda$ is the true density of microplastic deposition of the filter.
 If there are $k$ equal sized subsections, then we could plasubily estimate $X$ as
 $k$ times $a$ under the assumption of equal deposition in the entire filter. 
 
