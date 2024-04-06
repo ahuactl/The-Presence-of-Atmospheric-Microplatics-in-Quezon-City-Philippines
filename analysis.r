@@ -259,7 +259,11 @@ concentration_shape %>%
          y = parse(text = "Particles/m^3"))
 
 
-# ggsave(color_date_plot, file = "test.jpg")
-# ggsave()
-# ggsave()
-# ggsave()
+ggsave(shape_location_plot, file = "shape_location_plot.svg")
+ggsave(shape_date_plot, file = "shape_date_plot.svg")
+ggsave(color_location_plot, file = "color_location_plot.svg")
+ggsave(color_date_plot, file = "color_date_plot.svg")
+
+ggsave(concentration_location_plot, file = "concentration_location_plot.svg")
+ggsave(concentration_date_plot, file = "concentration_date_plot.svg")
+ggsave(concentration_shape_plot, file = "concentration_shape_plot.svg")
