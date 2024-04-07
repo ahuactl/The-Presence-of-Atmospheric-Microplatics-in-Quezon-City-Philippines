@@ -29,7 +29,13 @@ $$\mathbb{P}(\phi < X/k < \varphi) = 1 - \alpha$$
 Since we now have our $\alpha$-intervals around $X/k$ we can now use the obtained estimates, $k\phi$ and $k\varphi$ as endpoints of our interval and $kx$ for the mean, as the estimates for $X$. Since we now have estimates for $X$ we can also obtain concentration estimates by dividing our estimates by the total volume associated with the specified filter. 
 
 ### Multiple Filters
-Now, consider a case where we have multiple filters $X_1, X_2, ..., X_n$. Suppose we have obtained a corresponding $x_1, x_2, ..., x_n$ from each filter and each $x_i$ has the same area. We can also construct confidence intervals as follows
+Now, consider a case where we have multiple with filters with each having MPs $X_1, X_2, ..., X_n$. Suppose we have obtained a corresponding $x_1, x_2, ..., x_n$ from each filter and each $x_i$ has the same area. Then,
+
+$$
+\frac{1}{k}\sum_{i} X_i \sim \mathrm{Poisson}\left(\sum_{i}x_i\right)
+$$
+
+We can also construct confidence intervals as follows
 
 $$\mathbb{P}\left(\phi < \frac{1}{k}\sum_{i} X_i < \varphi\right) = 1 - \alpha$$
 
