@@ -18,6 +18,7 @@ We will then obtain the number of MPs in $a$ and call that $x$. Under the assump
 the entire filter, any such $a$ is an accurate estimator for the number of MPs
 on any similar-sized $a$. In another words, if $X$ is the true number of MPs a given filter, the
 best estimator for $X/k$ (subsections with size $a$), under the uniform deposition assumption is distributed by
+
 $$
 X/k \sim \mathrm{Poisson}(x)
 $$
