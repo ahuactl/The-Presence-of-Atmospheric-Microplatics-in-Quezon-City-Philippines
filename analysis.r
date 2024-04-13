@@ -39,6 +39,9 @@ poisson_estimates <- function(grouped_data, divisions, volume) {
 }
 
 # Counts
+## Pooled by all
+grouped_pooled_all <- group_proportion(data, NULL, NULL)
+
 ## by Shape 
 grouped_shape_location <- group_proportion(data, location, shape)
 grouped_pooled_shape_location <- 
@@ -60,9 +63,6 @@ grouped_color_date <- group_proportion(data, date, color)
 grouped_pooled_color_date <- 
     group_proportion(data, color, NULL) %>%
     mutate(date = "Pooled")
-
-
-grouped_pooled_all <- group_proportion(data, NULL, NULL)
 
 # Concentration 
 ## Pooled by all 
@@ -105,7 +105,8 @@ shape_location_plot <-
              color = "black",
              linewidth = 0.5) + 
     theme_half_open() + 
-    theme(legend.title = element_blank()) +
+    theme(legend.title = element_blank(),
+          axis.text.x = element_text(angle = 50, hjust = 1)) +
     scale_discrete_manual(aesthetics = "fill", 
                           values = c("fiber" = "#4f93ae", 
                                      "film" = "#2a9d8f", 
@@ -125,7 +126,8 @@ color_location_plot <-
              color = "black",
              linewidth = 0.5) + 
     theme_half_open() +
-    theme(legend.title = element_blank()) +
+    theme(legend.title = element_blank(),
+          axis.text.x = element_text(angle = 50, hjust = 1)) +
     scale_discrete_manual(aesthetics = "fill", 
                           values = c("black" = "#403f3f", 
                                      "blue" = "#0d6bb2", 
@@ -258,12 +260,56 @@ concentration_shape %>%
     labs(x = element_blank(), 
          y = parse(text = "Particles/m^3"))
 
+# Merging Plots
 
-ggsave(shape_location_plot, file = "shape_location_plot.svg")
-ggsave(shape_date_plot, file = "shape_date_plot.svg")
-ggsave(color_location_plot, file = "color_location_plot.svg")
-ggsave(color_date_plot, file = "color_date_plot.svg")
+shape_plot <- 
+ggarrange(shape_location_plot, ggplot() + theme_void(), 
+          shape_date_plot + theme(axis.title.y = element_blank()), 
+          common.legend = TRUE, 
+          legend = "right", 
+          nrow = 1, widths = c(1, 0.05, 1), 
+          align = "hv")
 
-ggsave(concentration_location_plot, file = "concentration_location_plot.svg")
-ggsave(concentration_date_plot, file = "concentration_date_plot.svg")
-ggsave(concentration_shape_plot, file = "concentration_shape_plot.svg")
+color_plot <- 
+ggarrange(color_location_plot, ggplot() + theme_void(), 
+          color_date_plot + theme(axis.title.y = element_blank()), 
+          common.legend = TRUE, 
+          legend = "right", 
+          nrow = 1, widths = c(1, 0.05, 1), 
+          align = "hv")
+
+concentration_plot <- 
+ggarrange(concentration_location_plot, ggplot() + theme_void(), 
+          concentration_date_plot + theme(axis.title.y = element_blank()), 
+          legend = "right", 
+          nrow = 1, widths = c(1, 0.05, 1), 
+          align = "hv")
+
+forest_data <- read.csv("forest_data.csv") 
+forest_data$author <- factor(forest_data$author, 
+                             levels = rev(unique(forest_data$author)))
+forest_data$location <- factor(forest_data$location, 
+                               levels = unique(forest_data$location))
+
+# Forest Plot
+
+forest_plot <- forest_data %>% 
+    ggplot(aes(y = author)) + 
+    geom_errorbar(aes(xmin = lower, xmax = upper, 
+                      color = location),
+                  width = 0.5) +
+    geom_point(aes(x = mean, color = location)) + 
+    theme_half_open() +
+    scale_x_log10(labels = scales::math_format(.x),
+                  breaks = c(0.001, 0.01, 0.1, 1, 10, 100)) + 
+    labs(x = parse(text = "Particles/m^3"),
+         y = "Author", 
+         color = "Location")
+
+# Save plots
+
+ggsave(shape_plot, file = "shape_plot.png")
+ggsave(color_plot, file = "color_plot.png")
+ggsave(concentration_plot, file = "concentration_plot.png")
+ggsave(concentration_shape_plot, file = "concentration_shape_plot.png")
+ggsave(forest_plot, file = "forest_plot.png")

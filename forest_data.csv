@@ -1,0 +1,20 @@
+author,location,remarks,mean,lower,upper
+This Study,Philippines (Quezon City),TSP,0.0094,0.006,0.0141
+Romarate et al. (2024),Philippines (Metro Manila),,0.021,0.001,0.126
+Romarate et al. (2024),Philippines (Quezon City),,0.0024,,
+Myat et. al. (2024),Southern Thailand,roadside,0.80,0.43,1.23
+Hidayat et al.  (2024),Japan (Bandung),,,1.03,14.27
+Hidayat et al.  (2024),Japan (Osaka),,,0.63,3.29
+Zhu et al. (2021),China (Northern Cities),,358,226,490
+Zhu et al. (2021),China (Southern Cities),,230,136,324
+Wang et al. (2024),South Korea (Anyang City),TSP,0.19,,
+Wang et al. (2024),South Korea (Anyang City),PM10,0.26,,
+Wang et al. (2024),South Korea (Anyang City),PM2.5,0.42,,
+Sharaf Din et al. (2024),Pakistan (Islamabad),,0.93,0.61,1.25
+Perera et al. (2022),Sri Lanka,,,0,0.23
+Abassi et al. (2023),Iran (Ahvas),,,0,0.017
+Dris et al. (2017),France (Paris),,,0.3,0.5
+Kernchen et al. (2022),Germany (Weser River),,91,44,138
+Shruti et al. (2022),Mexico (Mexico City),PM10,0.205,0.144,0.266
+Gaston et al. (2022),United States (Coastal California),fiber,0.6,0,1.2
+Gaston et al. (2022),United States (Coastal California),fragment,5.6,2.4,8.8
