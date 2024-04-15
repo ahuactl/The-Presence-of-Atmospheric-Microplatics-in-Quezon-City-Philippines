@@ -20,12 +20,13 @@ total_volume <- function(n, volume_rate, hour) {
     return (n * volume_rate * hour)
 }
 
+poisson_estimate <- function(divisions, count, direction) {
+    return (divisions * poisson.test(count)$conf.int[direction]) 
+}
+
 poisson_estimates <- function(grouped_data, divisions, volume) {
     ## if direction == 1, lower interval
     ## if direction == 2, upper interval
-    poisson_estimate <- function(divisions, count, direction) {
-        return (divisions * poisson.test(count)$conf.int[direction]) 
-    }
 
     grouped_data %>%
     rowwise() %>%
@@ -291,6 +292,58 @@ forest_data$author <- factor(forest_data$author,
 forest_data$location <- factor(forest_data$location, 
                                levels = unique(forest_data$location))
 
+
+
+detection_rate <- 
+seq(0.20, 1.80, by = 0.01) %>%
+tibble(
+    detection_rate = .,
+    mean_pooled = 4 * (detection_rate) * concentration_pooled_all %>% pull(count),
+    mean_east.ave = 4 * (detection_rate) * concentration_location %>% filter(location == "East Avenue") %>% pull(count),
+    mean_ateneo = 4 * (detection_rate) * concentration_location %>% filter(location == "Ateneo") %>% pull(count)
+) %>% rowwise() %>%
+mutate(
+    min_pooled = poisson_estimate(4, concentration_pooled_all %>% pull(count), 1) / detection_rate,
+    max_pooled = poisson_estimate(4, concentration_pooled_all %>% pull(count), 2) / detection_rate,
+    min_ateneo = poisson_estimate(4, concentration_location %>% filter(location == "Ateneo") %>% pull(count), 1) / detection_rate,
+    max_ateneo = poisson_estimate(4, concentration_location %>% filter(location == "Ateneo") %>% pull(count), 2) / detection_rate,
+    min_east.ave = poisson_estimate(4, concentration_location %>% filter(location == "East Avenue") %>% pull(count), 1) / detection_rate,
+    max_east.ave = poisson_estimate(4, concentration_location %>% filter(location == "East Avenue") %>% pull(count), 2) / detection_rate
+) %>%
+pivot_longer(cols = c(starts_with("mean"), starts_with("min"), starts_with("max")),
+             names_to = c(".value", "location"),
+             names_sep = "_") 
+## i know the code is not pretty, but it works!
+
+detection_probability_plot <- 
+ggplot(data = NULL, aes(x = detection_rate)) + 
+geom_ribbon(data = filter(detection_rate, location != "pooled"),
+            aes(ymin = min / volume_location, 
+                ymax = max / volume_location,
+                fill = location,
+                color = location),
+            alpha = 0.35) + 
+geom_ribbon(data = filter(detection_rate, location == "pooled"),
+            aes(ymin = min / volume_pooled_all, 
+                ymax = max / volume_pooled_all,
+                fill = location,
+                color = location), 
+            alpha = 0.70) + 
+theme_half_open() + 
+scale_color_discrete(labels = c("ateneo" = "Ateneo", 
+                                "east.ave" = "East Avenue",
+                                "pooled" = "Pooled")) +
+scale_fill_discrete(labels = c("ateneo" = "Ateneo", 
+                                "east.ave" = "East Avenue",
+                                "pooled" = "Pooled")) +     
+scale_y_continuous(breaks = seq(0, 0.1, by = 0.010)) +
+scale_x_continuous(labels = scales::percent_format(),
+                   breaks = seq(0, 1.80, by = 0.20)) +
+labs(y = parse(text = "Particles/m^3"), 
+     x = "Hypothesized Accuracy in Detection",
+     fill = "Location",
+     color = "Location")
+
 # Forest Plot
 
 forest_plot <- forest_data %>% 
@@ -313,3 +366,15 @@ ggsave(color_plot, file = "color_plot.png")
 ggsave(concentration_plot, file = "concentration_plot.png")
 ggsave(concentration_shape_plot, file = "concentration_shape_plot.png")
 ggsave(forest_plot, file = "forest_plot.png")
+ggsave(detection_probability_plot, file = "detection_probability_plot.png")
+
+# Citation
+## for R:
+citation() 
+version
+
+## for packages:
+citation("dplyr") ## data manipulation
+citation("tidyr") ## data cleaning
+citation("ggplot2") ## data visualization
+citation("cowplot") ## for ggplot theme
