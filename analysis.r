@@ -2,6 +2,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(cowplot)
+library(ggpubr)
 
 data <- read.csv("data.csv")
 
@@ -75,7 +76,7 @@ poisson_estimates(grouped_pooled_all, 4, volume_pooled_all)
 grouped_location <- group_proportion(data, location, NULL)
 volume_location <- total_volume(3, 67.96, 24)
 concentration_location <- 
-poisson_estimates(grouped_location, 4, volume)
+poisson_estimates(grouped_location, 4, volume_location)
 
 concentration_pooled_all_location <- 
     concentration_pooled_all %>% mutate(location = "Pooled")
@@ -298,9 +299,9 @@ detection_rate <-
 seq(0.20, 1.80, by = 0.01) %>%
 tibble(
     detection_rate = .,
-    mean_pooled = 4 * (detection_rate) * concentration_pooled_all %>% pull(count),
-    mean_east.ave = 4 * (detection_rate) * concentration_location %>% filter(location == "East Avenue") %>% pull(count),
-    mean_ateneo = 4 * (detection_rate) * concentration_location %>% filter(location == "Ateneo") %>% pull(count)
+    mean_pooled = (4 * concentration_pooled_all %>% pull(count)) / detection_rate,
+    mean_east.ave = (4 * concentration_location %>% filter(location == "East Avenue") %>% pull(count)) / detection_rate,
+    mean_ateneo = (4 * concentration_location %>% filter(location == "Ateneo") %>% pull(count)) / detection_rate
 ) %>% rowwise() %>%
 mutate(
     min_pooled = poisson_estimate(4, concentration_pooled_all %>% pull(count), 1) / detection_rate,

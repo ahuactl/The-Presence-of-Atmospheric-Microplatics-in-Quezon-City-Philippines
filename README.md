@@ -41,11 +41,11 @@ $$\mathbb{P}\left(\phi < \frac{1}{k}\sum_{i} X_i < \varphi\right) = 1 - \alpha$$
 From this, we can obtain a pooled estimate for the number of MPs using the same estimation process outlined above.
 
 ## Systematic Error
-Due to being a human (duh)
+We can imagine that before measuring the number of microplastics in the
+specified section of the filter, the MPs are already deposited uniformly
+and their distribution was described according to the Poisson process described above. However, due to 
+several instrumental, human errors and other factors, the true number of MPs in that specified section $x$ that we aim to analyze, is scaled by some factor $p$ that we'll call detection rate. 
 
-We can imagine that the Poisson process that g
-
-Let $p$ be the probability of detecting any particle.
 $$
 \begin{align*}
 Y_n &\sim \mathrm{B}(n, p) \\
@@ -68,12 +68,11 @@ $$
 &= \frac{e^{-Xp/k} (Xp/k)^x}{x!} 
 \end{align*} 
 $$
-
-
+We can realize that this is also a Poisson distribution. 
 $$
 x \mid X/k, p \sim \mathrm{Poisson}(Xp/k)
 $$
-
+By symmetry, we can also consider when $p > 1$ as overdetection by the change of variables from $x$ to $n$ and vice versa, as well as transforming $p$ to $p - 1$. This can also be viewed as detecting $n$ particles when $x$ is the true number.
 
 
 
