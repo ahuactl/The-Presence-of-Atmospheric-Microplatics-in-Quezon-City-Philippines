@@ -68,11 +68,11 @@ $$
 &= \frac{e^{-Xp/k} (Xp/k)^x}{x!} 
 \end{align*} 
 $$
+
 We can realize that this is also a Poisson distribution. 
+
 $$
 x \mid X/k, p \sim \mathrm{Poisson}(Xp/k)
 $$
+
 By symmetry, we can also consider when $p > 1$ as overdetection by the change of variables from $x$ to $n$ and vice versa, as well as transforming $p$ to $p - 1$. This can also be viewed as detecting $n$ particles when $x$ is the true number.
-
-
-
