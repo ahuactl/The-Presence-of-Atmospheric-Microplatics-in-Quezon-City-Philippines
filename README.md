@@ -16,7 +16,8 @@ with an area $a$ such that $A = ak$ where $k$ is the number of equal-sized secti
 
 We will then obtain the number of MPs in $a$ and call that $x$. Under the assumption that the MPs are uniformly deposited on
 the entire filter, any such $a$ is an accurate estimator for the number of MPs
-on any similar-sized $a$. In another words, if $X$ is the true number of MPs in a given filter, then, $X/k$ is the number of MPs in subsections with size $a$, and if the MPs are uniformly deposited, the number of MPs in any such chosen $a$ is given by
+on any similar-sized $a$. In another words, if $X$ is the true number of MPs in a given filter, then, $X/k$ is the number of MPs in subsections with size $a$, and if the MPs are uniformly deposited, the number of MPs in any such chosen $a$ is given by 
+
 $$
 X/k \sim \mathrm{Poisson}(x)
 $$
